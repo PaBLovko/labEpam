@@ -1,0 +1,3 @@
+rootProject.name = 'unit2'
+include 'dao'
+include 'model'
