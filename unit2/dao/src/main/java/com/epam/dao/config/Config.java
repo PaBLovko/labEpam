@@ -1,33 +1,45 @@
 package com.epam.dao.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:/database.properties")
 public class Config {
+    private static final String DATABASE_PROPERTY_FILE_PATH = "database.properties";
+    private static final String DATABASE_DRIVER_CLASS_NAME = "spring.datasource.driver-class-name";
+    private static final String DATABASE_URL = "spring.datasource.url";
+    private static final String DATABASE_USERNAME = "db.username";
+    private static final String DATABASE_PASSWORD = "db.password";
+    private static final String DATABASE_POOL_MAX_SIZE = "db.initialSize";
+    private static final String CREATE_DATABASE_SCRIPT = "classpath:sql/schema.sql";
+    private static final String FILL_DATABASE_WITH_DATA_SCRIPT = "classpath:sql/data.sql";
 
-    @Value("${db.driverClassName}")
-    private String driverClassName;
-    @Value("${db.url}")
-    private String url;
-    @Value("${db.username}")
-    private String userName;
-    @Value("${db.password}")
-    private String pass;
-    @Value("${db.maxOpenPreparedStatements}")
-    private int maxOpenPreparedStatements;
-    @Value("${db.autoReconnect}")
-    private String autoReconnect;
-    @Value("${db.characterEncoding}")
-    private String characterEncoding;
-    @Value("${db.initialSize}")
-    private int initialSize;
-    @Value("${db.serverTimezone}")
-    private String serverTimeZone;
-    @Value("${db.useUnicode}")
-    private String useUnicode;
+    @Bean
+    public DataSource dataSource() throws IOException {
+        Properties properties = new Properties();
+        properties.load(Config.class.getResourceAsStream(DATABASE_PROPERTY_FILE_PATH));
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setDriverClassName(properties.getProperty(DATABASE_DRIVER_CLASS_NAME));
+        dataSource.setJdbcUrl(properties.getProperty(DATABASE_URL));
+        dataSource.setUsername(properties.getProperty(DATABASE_USERNAME));
+        dataSource.setPassword(properties.getProperty(DATABASE_PASSWORD));
+        dataSource.setMaximumPoolSize(Integer.parseInt(properties.getProperty(DATABASE_POOL_MAX_SIZE)));
+        return dataSource;
+    }
 
+    @Bean
+    public DataSource embeddedDataSource() {
+        return new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.H2)
+                .addScript(CREATE_DATABASE_SCRIPT)
+                .addScript(FILL_DATABASE_WITH_DATA_SCRIPT)
+                .build();
+    }
 }

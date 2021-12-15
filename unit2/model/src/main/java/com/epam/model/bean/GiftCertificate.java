@@ -1,22 +1,25 @@
 package com.epam.model.bean;
 
-import com.epam.model.dto.TagDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NoArgsConstructor;
 
-import java.time.Instant;
-import java.time.Period;
+import java.math.BigDecimal;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GiftCertificate {
     private long id;
     private String name;
     private String description;
-    private long price;
-    private Period duration;
-    private Instant createDate;
-    private Instant lastUpdateDate;
+    private BigDecimal price;
+    private int duration;
+    private LocalDateTime createDate;
+    private LocalDateTime lastUpdateDate;
     private List<Tag> tags;
 
 }
