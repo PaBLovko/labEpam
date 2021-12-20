@@ -1,6 +1,12 @@
 package com.epam.unit2.service.impl;
 
 import com.epam.unit2.dao.api.GiftCertificateDao;
+import com.epam.unit2.dao.creator.criteria.Criteria;
+import com.epam.unit2.dao.creator.criteria.search.FullMatchSearchCriteria;
+import com.epam.unit2.dao.creator.criteria.search.PartMatchSearchCriteria;
+import com.epam.unit2.dao.creator.criteria.sort.FieldSortCriteria;
+import com.epam.unit2.dao.sql.SqlGiftCertificateName;
+import com.epam.unit2.dao.sql.SqlTagName;
 import com.epam.unit2.model.bean.GiftCertificate;
 import com.epam.unit2.model.bean.Tag;
 import com.epam.unit2.service.api.GiftCertificateService;
@@ -82,9 +88,15 @@ class GiftCertificateServiceImplTest {
 
     @Test
     void findCertificatesWithTagsByCriteriaTest() {
+        List<Criteria> criteriaList = new ArrayList<Criteria>();
+        criteriaList.add(new FullMatchSearchCriteria(SqlTagName.TAG_NAME, "1"));
+        criteriaList.add(new PartMatchSearchCriteria(SqlGiftCertificateName.NAME, "Car"));
+        criteriaList.add(new PartMatchSearchCriteria(SqlGiftCertificateName.DESCRIPTION, "Fast car"));
+        criteriaList.add(new FieldSortCriteria(SqlGiftCertificateName.NAME, "ASC"));
+        criteriaList.add(new FieldSortCriteria(SqlGiftCertificateName.CREATE_DATE, "ASC"));
         List<GiftCertificate> expected = new ArrayList<>();
         expected.add(giftCertificate);
-        Mockito.when(dao.findWithTags(Mockito.anyList())).thenReturn(expected);
+        Mockito.when(dao.findWithTags(criteriaList)).thenReturn(expected);
         List<GiftCertificate> actual = service.findCertificatesWithTagsByCriteria("1", "Car",
                 "Fast car", "ASC", "ASC");
         assertEquals(expected, actual);

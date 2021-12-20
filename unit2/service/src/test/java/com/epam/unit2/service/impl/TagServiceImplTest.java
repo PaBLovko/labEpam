@@ -34,14 +34,14 @@ class TagServiceImplTest {
     void insertTest() {
         Tag tag = new Tag("#new");
         Mockito.when(dao.insert(tag)).thenReturn(true);
-        Mockito.when(dao.findByName(Mockito.anyString())).thenReturn(Optional.empty());
+        Mockito.when(dao.findByName(tag.getName())).thenReturn(Optional.empty());
         boolean actual = service.insert(tag);
         assertTrue(actual);
     }
 
     @Test
     void deleteTest() {
-        Mockito.when(dao.delete(Mockito.anyLong())).thenReturn(true);
+        Mockito.when(dao.delete(5)).thenReturn(true);
         boolean actual = service.delete("5");
         assertTrue(actual);
     }
