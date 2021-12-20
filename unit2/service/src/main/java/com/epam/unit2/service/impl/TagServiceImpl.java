@@ -6,7 +6,7 @@ import com.epam.unit2.service.api.TagService;
 import com.epam.unit2.service.exception.InvalidFieldException;
 import com.epam.unit2.service.exception.ResourceDuplicateException;
 import com.epam.unit2.service.exception.ResourceNotFoundException;
-import com.epam.unit2.service.validator.GiftCertificateValidator;
+import com.epam.unit2.service.validator.TagValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public boolean insert(Tag tag) {
-        if (!GiftCertificateValidator.isNameValid(tag.getName())) {
+        if (!TagValidator.isNameValid(tag.getName())) {
             throw new InvalidFieldException("Invalid tag name (name = " + tag.getName() + ")");
         }
         if (dao.findByName(tag.getName()).isPresent()) {
@@ -44,7 +44,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag findByName(String name) {
-        if (GiftCertificateValidator.isNameValid(name)) {
+        if (TagValidator.isNameValid(name)) {
             return dao.findByName(name).orElseThrow(() -> new ResourceNotFoundException("Requested" +
                     " resource not found (name = " + name + ")"));
         } else {
