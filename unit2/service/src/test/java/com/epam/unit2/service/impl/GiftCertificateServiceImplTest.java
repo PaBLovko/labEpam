@@ -102,6 +102,21 @@ class GiftCertificateServiceImplTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void findCertificatesWithTagsByCriteriaThrowTest() {
+        List<Criteria> criteriaList = new ArrayList<Criteria>();
+        criteriaList.add(new FullMatchSearchCriteria(SqlTagName.TAG_NAME, null));
+        criteriaList.add(new PartMatchSearchCriteria(SqlGiftCertificateName.NAME, null));
+        criteriaList.add(new PartMatchSearchCriteria(SqlGiftCertificateName.DESCRIPTION, null));
+        criteriaList.add(new FieldSortCriteria(SqlGiftCertificateName.NAME, null));
+        criteriaList.add(new FieldSortCriteria(SqlGiftCertificateName.CREATE_DATE, null));
+        List<GiftCertificate> expected = new ArrayList<>();
+        Mockito.when(dao.findWithTags(criteriaList)).thenReturn(expected);
+        List<GiftCertificate> actual = service.findCertificatesWithTagsByCriteria(null, null,
+                null, null, null);
+        assertEquals(expected, actual);
+    }
+
 
     @Test
     void findByIdTest() {
