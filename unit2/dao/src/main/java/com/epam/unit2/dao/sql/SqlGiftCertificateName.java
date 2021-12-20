@@ -2,7 +2,7 @@ package com.epam.unit2.dao.sql;
 
 public class SqlGiftCertificateName {
 
-    public static final String GIFT_CERTIFICATE_ID = "id";
+    public static final String GIFT_CERTIFICATE_ID = "gift_certificate_id";
 
     public static final String NAME = "certificate_name";
 

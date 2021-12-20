@@ -13,7 +13,8 @@ dependencies {
 
     compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
     implementation project(':service')
-    implementation project(":model");
+    implementation project(":dao")
+    implementation project(":model")
 
 }
 

@@ -3,7 +3,7 @@ package com.epam.unit2.service.impl;
 import com.epam.unit2.dao.api.GiftCertificateDao;
 import com.epam.unit2.model.bean.GiftCertificate;
 import com.epam.unit2.service.api.GiftCertificateService;
-import com.epam.unit2.service.exception.ServiceException;
+import com.epam.unit2.service.exception.InvalidFieldException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -47,7 +47,7 @@ class GiftCertificateServiceImplTest {
     }
 
     @Test
-    void findByIdTest() throws ServiceException {
+    void findByIdTest() {
         GiftCertificate expected = giftCertificate;
         Mockito.when(dao.findById(Mockito.anyLong())).thenReturn(Optional.of(expected));
         GiftCertificate actual = service.findById("1");
@@ -56,6 +56,6 @@ class GiftCertificateServiceImplTest {
 
     @Test()
     void insertTest() {
-        assertThrows(ExceptionInInitializerError.class, () -> service.insert(giftCertificate));
+        assertThrows(InvalidFieldException.class, () -> service.insert(giftCertificate));
     }
 }

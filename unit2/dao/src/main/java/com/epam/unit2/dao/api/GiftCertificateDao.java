@@ -1,27 +1,80 @@
 package com.epam.unit2.dao.api;
 
 import com.epam.unit2.dao.creator.criteria.Criteria;
-import com.epam.unit2.dao.exception.DaoException;
 import com.epam.unit2.model.bean.GiftCertificate;
 import com.epam.unit2.model.bean.Tag;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The interface Gift certificate dao.
+ *
+ * @param <T> the type parameter
+ */
 public interface GiftCertificateDao<T extends GiftCertificate> {
-    boolean insert(T t) throws DaoException;
 
+    /**
+     * Insert boolean.
+     *
+     * @param t the t
+     * @return the boolean
+     */
+    boolean insert(T t);
+
+    /**
+     * Delete boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
     boolean delete(long id);
 
+    /**
+     * Disconnect all tags boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
     boolean disconnectAllTags(long id);
 
+    /**
+     * Update boolean.
+     *
+     * @param t the t
+     * @return the boolean
+     */
     boolean update(T t);
 
+    /**
+     * Find by id optional.
+     *
+     * @param id the id
+     * @return the optional
+     */
     Optional<GiftCertificate> findById(long id);
 
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
     List<T> findAll();
 
+    /**
+     * Find with tags list.
+     *
+     * @param criteriaList the criteria list
+     * @return the list
+     */
     List<T> findWithTags(List<Criteria> criteriaList);
 
+    /**
+     * Connect tags boolean.
+     *
+     * @param tags          the tags
+     * @param certificateId the certificate id
+     * @return the boolean
+     */
     boolean connectTags(List<Tag> tags, long certificateId);
 }

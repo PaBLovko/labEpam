@@ -2,7 +2,6 @@ package com.epam.unit2.web.controller;
 
 import com.epam.unit2.model.bean.GiftCertificate;
 import com.epam.unit2.service.api.GiftCertificateService;
-import com.epam.unit2.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,18 +35,18 @@ public class GiftCertificateController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<String> createGiftCertificate(@RequestBody GiftCertificate giftCertificate) throws ServiceException {
+    public ResponseEntity<String> createGiftCertificate(@RequestBody GiftCertificate giftCertificate) {
         service.insert(giftCertificate);
         return ResponseEntity.status(HttpStatus.CREATED).body("Certificate created successfully");
     }
 
     @GetMapping("/{id}")
-    public GiftCertificate findCertificateById(@PathVariable String id) throws ServiceException {
+    public GiftCertificate findCertificateById(@PathVariable String id) {
         return service.findById(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteGiftCertificate(@PathVariable String id) throws ServiceException {
+    public ResponseEntity<String> deleteGiftCertificate(@PathVariable String id) {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Gift certificate deleted successfully" +
                 " (id = " + id + ")");
@@ -55,7 +54,7 @@ public class GiftCertificateController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<String> updateGiftCertificate(@PathVariable String id,
-                                                        @RequestBody GiftCertificate giftCertificate) throws ServiceException {
+                                                        @RequestBody GiftCertificate giftCertificate) {
         service.update(id, giftCertificate);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Gift certificate updated successfully" +
                 " (id = " + id + ")");

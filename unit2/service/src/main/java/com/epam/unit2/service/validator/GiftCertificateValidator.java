@@ -6,11 +6,10 @@ import com.epam.unit2.model.bean.Tag;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.regex.Pattern;
-//@NoArgsConstructor(access = AccessLevel.PRIVATE);
 
 public class GiftCertificateValidator {
-    private static final Pattern NAME_PATTERN = Pattern.compile("[А-Яа-я\\w\\s\\p{Punct}]{1,256}");
-    private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("[А-Яа-я\\w\\s\\p{Punct}]{1,5000}");
+    private static final Pattern NAME_PATTERN = Pattern.compile("[\\w\\s\\p{Punct}]{1,256}");
+    private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("[\\w\\s\\p{Punct}]{1,5000}");
 
     private GiftCertificateValidator() {
     }

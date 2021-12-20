@@ -5,17 +5,18 @@ import com.epam.unit2.dao.creator.criteria.Criteria;
 import com.epam.unit2.dao.creator.criteria.search.FullMatchSearchCriteria;
 import com.epam.unit2.dao.creator.criteria.search.PartMatchSearchCriteria;
 import com.epam.unit2.dao.creator.criteria.sort.FieldSortCriteria;
-import com.epam.unit2.dao.exception.DaoException;
 import com.epam.unit2.dao.sql.SqlGiftCertificateName;
 import com.epam.unit2.dao.sql.SqlTagName;
 import com.epam.unit2.model.bean.GiftCertificate;
 import com.epam.unit2.model.bean.Tag;
 import com.epam.unit2.service.api.GiftCertificateService;
 import com.epam.unit2.service.api.TagService;
-import com.epam.unit2.service.exception.ServiceException;
-import com.epam.unit2.service.validator.TagValidator;
+import com.epam.unit2.service.exception.InvalidFieldException;
+import com.epam.unit2.service.exception.ResourceNotFoundException;
 import com.epam.unit2.service.validator.GiftCertificateValidator;
+import com.epam.unit2.service.validator.TagValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class GiftCertificateServiceImpl implements GiftCertificateService<GiftCertificate> {
     private static final String ASC_SORT_ORDERING = "ASC";
     private static final String DESC_SORT_ORDERING = "DESC";
@@ -39,28 +41,23 @@ public class GiftCertificateServiceImpl implements GiftCertificateService<GiftCe
 
     @Transactional
     @Override
-    public boolean insert(GiftCertificate giftCertificate) throws ServiceException {
+    public boolean insert(GiftCertificate giftCertificate) {
         if (GiftCertificateValidator.isGiftCertificateCreationFormValid(giftCertificate)) {
             giftCertificate.setCreateDate(LocalDateTime.now());
-            try {
-            if (giftCertificate.getTags() != null && saveNewTags(giftCertificate, tagService.findAll())) {
-                List<Tag> tagsWithId = new ArrayList<>();
-                giftCertificate.getTags().forEach(t -> tagsWithId.add(tagService.findByName(t.getName())));
-                giftCertificate.setTags(tagsWithId);
-            }
-
+                if (giftCertificate.getTags() != null && saveNewTags(giftCertificate, tagService.findAll())) {
+                    List<Tag> tagsWithId = new ArrayList<>();
+                    giftCertificate.getTags().forEach(t -> tagsWithId.add(tagService.findByName(t.getName())));
+                    giftCertificate.setTags(tagsWithId);
+                }
                 return dao.insert(giftCertificate);
-            } catch (DaoException e) {
-                throw new ServiceException("Invalid gift certificate: " + giftCertificate, e);
-            }
         } else {
-            throw new ServiceException("Invalid gift certificate: " + giftCertificate);
+            throw new InvalidFieldException("Invalid gift certificate: " + giftCertificate);
         }
     }
 
     @Transactional
     @Override
-    public boolean delete(String id) throws ServiceException {
+    public boolean delete(String id) {
         try {
             Optional<GiftCertificate> giftCertificateOptional = dao.findById(Long.parseLong(id));
             if (giftCertificateOptional.isPresent()) {
@@ -70,19 +67,19 @@ public class GiftCertificateServiceImpl implements GiftCertificateService<GiftCe
                 }
                 return dao.delete(giftCertificate.getId());
             } else {
-                throw new ServiceException("Requested resource not found (id = " + id + ")");
+                throw new ResourceNotFoundException("Requested resource not found (id = " + id + ")");
             }
         } catch (NumberFormatException e) {
-            throw new ServiceException("Invalid tag id (id = " + id + ")", e);
+            throw new InvalidFieldException("Invalid tag id (id = " + id + ")", e);
         }
     }
 
     @Transactional
     @Override
-    public boolean update(String id, GiftCertificate newGiftCertificate) throws ServiceException {
+    public boolean update(String id, GiftCertificate newGiftCertificate) {
         try {
             GiftCertificate oldGiftCertificate = dao.findById(Long.parseLong(id)).orElseThrow(() ->
-                    new ServiceException("Requested resource not found (id = " + id + ")"));
+                    new ResourceNotFoundException("Requested resource not found (id = " + id + ")"));
             if (updateGiftCertificateFields(oldGiftCertificate, newGiftCertificate) &&
                     saveNewTags(oldGiftCertificate, tagService.findAll())) {
                 oldGiftCertificate.setLastUpdateDate(LocalDateTime.now());
@@ -93,20 +90,20 @@ public class GiftCertificateServiceImpl implements GiftCertificateService<GiftCe
                 dao.connectTags(notConnectedTags, oldGiftCertificate.getId());
                 return dao.update(oldGiftCertificate);
             } else {
-                throw new ServiceException("Invalid gift certificate: " + newGiftCertificate);
+                throw new InvalidFieldException("Invalid gift certificate: " + newGiftCertificate);
             }
         } catch (NumberFormatException e) {
-            throw new ServiceException("Invalid tag id (id = " + id + ")", e);
+            throw new InvalidFieldException("Invalid tag id (id = " + id + ")", e);
         }
     }
 
     @Override
-    public GiftCertificate findById(String id) throws ServiceException {
+    public GiftCertificate findById(String id) {
         try {
-            return dao.findById(Long.parseLong(id)).orElseThrow(() -> new ServiceException("Requested" +
+            return dao.findById(Long.parseLong(id)).orElseThrow(() -> new ResourceNotFoundException("Requested" +
                     " resource not found (id = " + id + ")"));
         } catch (NumberFormatException e) {
-            throw new ServiceException("Invalid tag id (id = " + id + ")", e);
+            throw new InvalidFieldException("Invalid tag id (id = " + id + ")", e);
         }
     }
 
@@ -116,7 +113,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService<GiftCe
     }
 
     @Override
-    public List<GiftCertificate> findCertificatesWithTagsByCriteria(String tagName, String certificateName, String certificateDescription, String sortByName, String sortByDate) {
+    public List<GiftCertificate> findCertificatesWithTagsByCriteria(String tagName, String certificateName,
+                                                                    String certificateDescription, String sortByName,
+                                                                    String sortByDate) {
         List<Criteria> criteriaList = new ArrayList<>();
         if (TagValidator.isNameValid(tagName)) {
             criteriaList.add(new FullMatchSearchCriteria(SqlTagName.TAG_NAME, tagName));

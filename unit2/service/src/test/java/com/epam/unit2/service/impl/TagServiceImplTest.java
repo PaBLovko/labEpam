@@ -3,7 +3,6 @@ package com.epam.unit2.service.impl;
 import com.epam.unit2.dao.api.TagDao;
 import com.epam.unit2.model.bean.Tag;
 import com.epam.unit2.service.api.TagService;
-import com.epam.unit2.service.exception.ServiceException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -39,14 +38,14 @@ class TagServiceImplTest {
     }
 
     @Test
-    void deleteTest() throws ServiceException {
+    void deleteTest() {
         Mockito.when(dao.delete(Mockito.anyLong())).thenReturn(true);
         boolean actual = service.delete("5");
         assertTrue(actual);
     }
 
     @Test
-    void findByIdTest() throws ServiceException {
+    void findByIdTest() {
         Tag expected = new Tag("#cool");
         Mockito.when(dao.findById(Mockito.anyLong())).thenReturn(Optional.of(expected));
         Tag actual = service.findById("12");

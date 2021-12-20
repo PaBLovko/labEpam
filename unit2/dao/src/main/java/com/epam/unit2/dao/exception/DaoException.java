@@ -1,6 +1,6 @@
 package com.epam.unit2.dao.exception;
 
-public class DaoException extends Exception{
+public class DaoException extends RuntimeException{
 
     public DaoException() {
         super();

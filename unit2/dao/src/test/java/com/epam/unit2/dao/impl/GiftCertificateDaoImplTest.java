@@ -41,7 +41,7 @@ class GiftCertificateDaoImplTest {
     @Test
     void findByIdTest() {
         Optional<GiftCertificate> expected = Optional.of(new GiftCertificate(2, "Sand", "Yellow sand", new BigDecimal("2"), 24,
-                LocalDateTime.of(2020, 5, 5, 23, 42, 12, 112000000),
+                LocalDateTime.of(2020, 5, 5, 23, 42, 12),
                 null, new ArrayList<>()));
         Optional<GiftCertificate> actual = dao.findById(2);
         assertEquals(expected, actual);

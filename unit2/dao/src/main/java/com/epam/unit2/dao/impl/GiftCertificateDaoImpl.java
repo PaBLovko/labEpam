@@ -36,7 +36,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao<GiftCertificat
     }
 
     @Override
-    public boolean insert(GiftCertificate giftCertificate) throws DaoException {
+    public boolean insert(GiftCertificate giftCertificate){
         KeyHolder keyHolder = new GeneratedKeyHolder();
         boolean isQuerySuccess = template.update(con -> {
             PreparedStatement ps = con.prepareStatement(SqlGiftCertificateQuery.SQL_INSERT_CERTIFICATE,
