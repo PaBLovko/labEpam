@@ -7,25 +7,8 @@ import java.util.List;
 /**
  * The interface Gift certificate service.
  *
- * @param <T> the type parameter
  */
-public interface GiftCertificateService <T extends GiftCertificate> {
-
-    /**
-     * Insert boolean.
-     *
-     * @param t the t
-     * @return the boolean
-     */
-    boolean insert(T t);
-
-    /**
-     * Delete boolean.
-     *
-     * @param id the id
-     * @return the boolean
-     */
-    boolean delete(String id);
+public interface GiftCertificateService extends CRUDRepository<GiftCertificate> {
 
     /**
      * Update boolean.
@@ -35,21 +18,6 @@ public interface GiftCertificateService <T extends GiftCertificate> {
      * @return the boolean
      */
     boolean update(String id, GiftCertificate giftCertificate) ;
-
-    /**
-     * Find by id t.
-     *
-     * @param id the id
-     * @return the t
-     */
-    T findById(String id);
-
-    /**
-     * Find all list.
-     *
-     * @return the list
-     */
-    List<GiftCertificate> findAll();
 
     /**
      * Find certificates with tags by criteria list.

@@ -30,12 +30,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GiftCertificateServiceImplTest {
     private static GiftCertificate giftCertificate;
-    private GiftCertificateService<GiftCertificate> service;
+    private GiftCertificateService service;
 
     @Mock
     private GiftCertificateDao<GiftCertificate> dao;
     @Mock
-    private TagService<Tag> tagService;
+    private TagService tagService;
 
     @BeforeAll
     void init() {

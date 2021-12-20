@@ -26,15 +26,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class GiftCertificateServiceImpl implements GiftCertificateService<GiftCertificate> {
+public class GiftCertificateServiceImpl implements GiftCertificateService {
     private static final String ASC_SORT_ORDERING = "ASC";
     private static final String DESC_SORT_ORDERING = "DESC";
     private final GiftCertificateDao<GiftCertificate> dao;
-    private final TagService<Tag> tagService;
+    private final TagService tagService;
 
 
     @Autowired
-    public GiftCertificateServiceImpl(GiftCertificateDao<GiftCertificate> dao, TagService<Tag> tagService) {
+    public GiftCertificateServiceImpl(GiftCertificateDao<GiftCertificate> dao, TagService tagService) {
         this.dao = dao;
         this.tagService = tagService;
     }

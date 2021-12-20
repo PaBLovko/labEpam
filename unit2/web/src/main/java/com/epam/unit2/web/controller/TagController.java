@@ -12,10 +12,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/tags")
 public class TagController {
-    private final TagService<Tag> service;
+    private final TagService service;
 
     @Autowired
-    public TagController(TagService<Tag> service) {
+    public TagController(TagService service) {
         this.service = service;
     }
 

@@ -12,10 +12,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/certificates")
 public class GiftCertificateController {
-    private final GiftCertificateService<GiftCertificate> service;
+    private final GiftCertificateService service;
 
     @Autowired
-    public GiftCertificateController(GiftCertificateService<GiftCertificate> service) {
+    public GiftCertificateController(GiftCertificateService service) {
         this.service = service;
     }
 
