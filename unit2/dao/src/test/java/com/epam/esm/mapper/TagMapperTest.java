@@ -4,6 +4,7 @@ import com.epam.esm.config.DataSourceConfig;
 import com.epam.esm.sql.SqlTagQuery;
 import com.epam.esm.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class TagMapperTest {
     @Test
     void mapRowTest() throws SQLException {

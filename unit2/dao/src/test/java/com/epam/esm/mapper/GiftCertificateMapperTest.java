@@ -5,6 +5,7 @@ import com.epam.esm.config.DataSourceConfig;
 import com.epam.esm.sql.SqlGiftCertificateQuery;
 import com.epam.esm.GiftCertificate;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class GiftCertificateMapperTest {
     @Test
     void extractDataTest() throws SQLException {

@@ -9,6 +9,7 @@ import com.epam.esm.creator.criteria.search.FullMatchSearchCriteria;
 import com.epam.esm.mapper.GiftCertificateMapper;
 import com.epam.esm.GiftCertificate;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class GiftCertificateDaoImplTest {
     private static final GiftCertificateDao<GiftCertificate> dao = new GiftCertificateDaoImpl
             (DataSourceConfig.dataSource, new GiftCertificateMapper(), new SqlGiftCertificateQueryCreator());

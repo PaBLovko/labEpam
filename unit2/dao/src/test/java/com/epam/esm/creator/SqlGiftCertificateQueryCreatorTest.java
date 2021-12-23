@@ -6,12 +6,13 @@ import com.epam.esm.creator.criteria.search.PartMatchSearchCriteria;
 import com.epam.esm.creator.criteria.sort.FieldSortCriteria;
 import com.epam.esm.sql.SqlGiftCertificateName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class SqlGiftCertificateQueryCreatorTest {
     private final SqlQueryCreator queryCreator = new SqlGiftCertificateQueryCreator();
     private final List<Criteria> criteriaList = new ArrayList<>();
