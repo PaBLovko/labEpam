@@ -1,4 +1,6 @@
-create table gift_certificates.gift_certificates
+create schema gift_certificates;
+
+create table gift_certificates
 (
     gift_certificate_id bigint auto_increment
         primary key,
@@ -10,14 +12,14 @@ create table gift_certificates.gift_certificates
     last_update_date    datetime     null
 );
 
-create table gift_certificates.tags
+create table tags
 (
     tag_id   bigint auto_increment
         primary key,
     tag_name varchar(256) not null
 );
 
-create table gift_certificates.gift_certificates_tags
+create table gift_certificates_tags
 (
     gift_certificate_tag_id bigint auto_increment
         primary key,
