@@ -37,7 +37,7 @@ public class DatabaseConfiguration {
             config.setPassword(properties.getProperty(DATABASE_PASSWORD));
             config.setMaximumPoolSize(Integer.parseInt(properties.getProperty(DATABASE_POOL_MAX_SIZE)));
         } catch (IOException e) {
-            throw new DaoException("Database connection error");
+            throw new DaoException("1", "Database connection error");
         }
         return new HikariDataSource(config);
     }

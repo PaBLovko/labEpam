@@ -52,7 +52,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao<GiftCertificat
             return (giftCertificate.getTags() == null || giftCertificate.getTags().isEmpty() ||
                     connectTags(giftCertificate.getTags(), keyHolder.getKey().longValue()));
         } else {
-            throw new DaoException("Generated key is null for gift certificate: " + giftCertificate);
+            throw new DaoException("1", "Generated key is null for gift certificate: " + giftCertificate);
         }
     }
 

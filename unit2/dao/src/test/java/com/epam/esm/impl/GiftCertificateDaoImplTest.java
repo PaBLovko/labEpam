@@ -1,13 +1,13 @@
 package com.epam.esm.impl;
 
-import com.epam.esm.creator.criteria.Criteria;
-import com.epam.esm.sql.SqlTagName;
+import com.epam.esm.GiftCertificate;
 import com.epam.esm.api.GiftCertificateDao;
 import com.epam.esm.config.DataSourceConfig;
 import com.epam.esm.creator.SqlGiftCertificateQueryCreator;
+import com.epam.esm.creator.criteria.Criteria;
 import com.epam.esm.creator.criteria.search.FullMatchSearchCriteria;
 import com.epam.esm.mapper.GiftCertificateMapper;
-import com.epam.esm.GiftCertificate;
+import com.epam.esm.sql.SqlTagName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
