@@ -17,7 +17,7 @@ public class DatabaseConfiguration {
     private static final String DATABASE_URL = "spring.datasource.url";
     private static final String DATABASE_USERNAME = "spring.datasource.username";
     private static final String DATABASE_PASSWORD = "spring.datasource.password";
-    private static final String DATABASE_POOL_MAX_SIZE = "spring.datasource.poolMaxSize";
+    private static final String DATABASE_POOL_MAX_SIZE = "spring.datasource.hikari.maximum-pool-size";
     private static final String CREATE_DATABASE_SCRIPT = "sql/script.sql";
     private static final String FILL_DATABASE_WITH_DATA_SCRIPT = "sql/data.sql";
 

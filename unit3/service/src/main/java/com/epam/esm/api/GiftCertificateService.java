@@ -36,10 +36,10 @@ public interface GiftCertificateService extends CRDRepository<GiftCertificate> {
                                                              String certificateDescription, String sortByName,
                                                              String sortByDate);
 
-//    /**
-//     * Disconnect tag by id.
-//     *
-//     * @param tagId the tag id
-//     */
-//    void disconnectTagById(String tagId);
+    /**
+     * Disconnect tag by id.
+     *
+     * @param tagId the tag id
+     */
+    void disconnectTagById(String tagId);
 }

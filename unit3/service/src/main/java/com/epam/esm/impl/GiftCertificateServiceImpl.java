@@ -121,6 +121,21 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
+    public void disconnectTagById(String tagId) {
+        Tag tag = tagService.findById(tagId);
+        List<GiftCertificate> certificatesWithSuchTag = findCertificatesWithTagsByCriteria(0, 0,
+                Collections.singletonList(tag.getName()), null, null, null, null);
+        if (!CollectionUtils.isEmpty(certificatesWithSuchTag)) {
+            for (GiftCertificate certificate : certificatesWithSuchTag) {
+                Set<Tag> updatedTags = certificate.getTags();
+                updatedTags.remove(tag);
+                certificate.setTags(updatedTags);
+                dao.update(certificate);
+            }
+        }
+    }
+
+    @Override
     public List<GiftCertificate> findCertificatesWithTagsByCriteria(int page, int elements,List<String> tagsNames,
                                                                     String certificateName,
                                                                     String certificateDescription, String sortByName,

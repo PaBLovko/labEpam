@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tags")
-public class Tag {
+public class Tag extends RepresentationModel<Tag> {
     @Id
     @Column(name = "tag_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -16,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "gift_certificates")
-public class GiftCertificate {
+public class GiftCertificate extends RepresentationModel<GiftCertificate> {
     @Id
     @Column(name = "gift_certificate_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
