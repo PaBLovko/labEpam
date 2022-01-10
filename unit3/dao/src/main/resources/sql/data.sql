@@ -32,7 +32,7 @@ INSERT INTO users (user_id, first_name, last_name, email) VALUES(4, 'Kirill','Pe
 INSERT INTO users (user_id, first_name, last_name, email) VALUES(5, 'Alina','Butterfly','alina@gmail.com');
 
 INSERT INTO orders (order_id, cost, timestamp, user_id_fk, gift_certificate_id_fk)
-VALUES(1, '0.99', '2012-10-10T11:10:11.111', 1, 5);
+VALUES(1, '0.99', '2012-10-10T11:10:11.111', 1, 1);
 
 INSERT INTO orders (order_id, cost, timestamp, user_id_fk, gift_certificate_id_fk)
 VALUES(2, '99.99', '2021-06-26T16:10:11.111', 2, 1);
@@ -41,7 +41,7 @@ INSERT INTO orders (order_id, cost, timestamp, user_id_fk, gift_certificate_id_f
 VALUES(3, '99.99', '2019-12-31T23:59:59.111', 3, 1);
 
 INSERT INTO orders (order_id, cost, timestamp, user_id_fk, gift_certificate_id_fk)
-VALUES(4, '2.35', '2011-11-19T11:10:11.111', 4, 2);
+VALUES(4, '2.35', '2011-11-19T11:10:11.111', 4, 1);
 
 INSERT INTO orders (order_id, cost, timestamp, user_id_fk, gift_certificate_id_fk)
-VALUES(5, '1000', '2019-11-19T11:10:11', 5, 3);
+VALUES(5, '1000', '2019-11-19T11:10:11', 5, 1);

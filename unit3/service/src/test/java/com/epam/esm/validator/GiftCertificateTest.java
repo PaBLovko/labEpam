@@ -9,7 +9,9 @@ import org.junit.jupiter.api.TestInstance;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,7 +24,7 @@ class GiftCertificateTest {
     void init() {
         giftCertificate = new GiftCertificate(2, "Sand", "Yellow sand", new BigDecimal("2"), 24,
                 LocalDateTime.of(2020, 5, 5, 23, 42, 12),
-                null, new ArrayList<>());
+                null, new HashSet<>());
     }
 
     @Test
@@ -88,7 +90,7 @@ class GiftCertificateTest {
 
     @Test
     void areGiftCertificateTagsValidTest() {
-        List<Tag> tags = new ArrayList<>();
+        Set<Tag> tags = new HashSet<>();
         tags.add(new Tag(1, "War"));
         tags.add(new Tag(2, "Happy"));
         tags.add(new Tag(3, "Cold"));
@@ -111,7 +113,7 @@ class GiftCertificateTest {
 
     @Test
     void areGiftCertificateTagsValidForCreationNotValidTest() {
-        List<Tag> tags = new ArrayList<>();
+        Set<Tag> tags = new HashSet<>();
         tags.add(new Tag());
         tags.add(new Tag(null));
         tags.add(new Tag(3, "<>"));

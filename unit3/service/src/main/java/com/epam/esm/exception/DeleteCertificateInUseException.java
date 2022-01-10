@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ResourceNotFoundException extends RuntimeException {
+public class DeleteCertificateInUseException extends RuntimeException {
     private String errorCode;
-    private String message;
+    private String messageKey;
     private String detail;
 
 }

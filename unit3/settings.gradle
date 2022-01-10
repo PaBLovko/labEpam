@@ -1,5 +1,5 @@
 rootProject.name = 'unit3'
 include 'dao'
 include 'model'
-//include 'service'
+include 'service'
 //include 'web'

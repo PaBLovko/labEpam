@@ -1,41 +1,39 @@
 package com.epam.esm.impl;
 
+import com.epam.esm.Tag;
+import com.epam.esm.api.TagDao;
+import com.epam.esm.api.TagService;
+import com.epam.esm.constant.EntityFieldsName;
+import com.epam.esm.creator.criteria.search.PartMatchSearchCertificateCriteria;
+import com.epam.esm.creator.criteria.sort.FieldSortCertificateCriteria;
 import com.epam.esm.exception.InvalidFieldException;
 import com.epam.esm.api.GiftCertificateDao;
 import com.epam.esm.creator.criteria.Criteria;
 import com.epam.esm.creator.criteria.search.FullMatchSearchCertificateCriteria;
-import com.epam.esm.creator.criteria.search.PartMatchSearchCertificateCriteria;
-import com.epam.esm.creator.criteria.sort.FieldSortCertificateCriteria;
-import com.epam.esm.sql.SqlGiftCertificateName;
-import com.epam.esm.sql.SqlTagName;
 import com.epam.esm.GiftCertificate;
-import com.epam.esm.Tag;
-import com.epam.esm.api.GiftCertificateService;
-import com.epam.esm.api.TagService;
 import com.epam.esm.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GiftCertificateServiceImplTest {
     private static GiftCertificate giftCertificate;
-    private GiftCertificateService service;
-
     @Mock
     private GiftCertificateDao<GiftCertificate> dao;
     @Mock
     private TagService tagService;
+    @InjectMocks
+    private GiftCertificateServiceImpl service;
 
     @BeforeAll
     void init() {
@@ -49,29 +47,29 @@ class GiftCertificateServiceImplTest {
     void findAllTest() {
         List<GiftCertificate> expected = new ArrayList<>();
         expected.add(giftCertificate);
-        Mockito.when(dao.findAll()).thenReturn(expected);
-        List<GiftCertificate> actual = service.findAll();
+        Mockito.when(dao.findAll(0, 0)).thenReturn(expected);
+        List<GiftCertificate> actual = service.findAll(0, 0);
         assertEquals(expected, actual);
     }
 
     @Test
     void insertTest() {
+        long expected = giftCertificate.getId();
         giftCertificate.setCreateDate(null);
         giftCertificate.setLastUpdateDate(null);
-        Mockito.when(dao.insert(giftCertificate)).thenReturn(true);
-        boolean actual = service.insert(giftCertificate);
-        assertTrue(actual);
+        Mockito.when(dao.insert(giftCertificate)).thenReturn(expected);
+        long actual = service.insert(giftCertificate);
+        assertEquals(expected, actual);
     }
 
     @Test
     void updateTest() {
-        List<Tag> tags = new ArrayList<>();
+        Set<Tag> tags = new HashSet<>();
         Tag tag = new Tag(1, "name");
         tags.add(tag);
         giftCertificate.setTags(tags);
         Mockito.when(dao.findById(giftCertificate.getId())).thenReturn(Optional.of(giftCertificate));
-        Mockito.when(tagService.insert(tag)).thenReturn(true);
-        Mockito.when(dao.connectTags(new ArrayList<>(), 2)).thenReturn(true);
+        Mockito.when(tagService.findAll(0,0)).thenReturn(new ArrayList<>(tags));
         Mockito.when(dao.update(giftCertificate)).thenReturn(true);
         giftCertificate.setName("new");
         boolean actual = service.update(Long.toString(giftCertificate.getId()), giftCertificate);
@@ -87,36 +85,51 @@ class GiftCertificateServiceImplTest {
     }
 
     @Test
+    void findWithTagsTest() {
+        List<GiftCertificate> expected = new ArrayList<>();
+        List<Criteria<GiftCertificate>> criteriaList = new ArrayList<>();
+        criteriaList.add(new FullMatchSearchCertificateCriteria(EntityFieldsName.NAME, "#longverylongtagname"));
+        List<GiftCertificate> actual = dao.findWithTags(0, 0, criteriaList);
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void findCertificatesWithTagsByCriteriaTest() {
-        List<Criteria> criteriaList = new ArrayList<Criteria>();
-        criteriaList.add(new FullMatchSearchCertificateCriteria(SqlTagName.TAG_NAME, "1"));
-        criteriaList.add(new PartMatchSearchCertificateCriteria(SqlGiftCertificateName.NAME, "Car"));
-        criteriaList.add(new PartMatchSearchCertificateCriteria(SqlGiftCertificateName.DESCRIPTION, "Fast car"));
-        criteriaList.add(new FieldSortCertificateCriteria(SqlGiftCertificateName.NAME, "ASC"));
-        criteriaList.add(new FieldSortCertificateCriteria(SqlGiftCertificateName.CREATE_DATE, "ASC"));
+        List<Criteria<GiftCertificate>> criteriaList = new ArrayList<>();
+        List<String> tags = new ArrayList<>();
+        tags.add("#funny");
+        tags.add("#cool");
+        Tag tagFunny = new Tag(1,"#funny");
+        Tag tagCool = new Tag(2,"#cool");
+
+        List<Tag> tagList = new ArrayList<>();
+        tagList.add(tagFunny);
+        tagList.add(tagCool);
+
+        criteriaList.add(new FullMatchSearchCertificateCriteria(tagList));
+        criteriaList.add(new PartMatchSearchCertificateCriteria(EntityFieldsName.NAME, "Car"));
+        criteriaList.add(new PartMatchSearchCertificateCriteria(EntityFieldsName.DESCRIPTION, "Fast car"));
+        criteriaList.add(new FieldSortCertificateCriteria(EntityFieldsName.NAME, "ASC"));
+        criteriaList.add(new FieldSortCertificateCriteria(EntityFieldsName.CREATE_DATE, "ASC"));
         List<GiftCertificate> expected = new ArrayList<>();
         expected.add(giftCertificate);
-        Mockito.when(dao.findWithTags(criteriaList)).thenReturn(expected);
-        List<GiftCertificate> actual = service.findCertificatesWithTagsByCriteria("1", "Car",
-                "Fast car", "ASC", "ASC");
+        Mockito.when(tagService.findByName("#cool")).thenReturn(tagCool);
+        Mockito.when(tagService.findByName("#funny")).thenReturn(tagFunny);
+        Mockito.when(dao.findWithTags(0,0, criteriaList)).thenReturn(expected);
+        List<GiftCertificate> actual = service.findCertificatesWithTagsByCriteria(0,0, tags,
+                "Car", "Fast car", "ASC", "ASC");
         assertEquals(expected, actual);
     }
 
     @Test
     void findCertificatesWithTagsByCriteriaThrowTest() {
-        List<Criteria> criteriaList = new ArrayList<Criteria>();
-        criteriaList.add(new FullMatchSearchCertificateCriteria(SqlTagName.TAG_NAME, null));
-        criteriaList.add(new PartMatchSearchCertificateCriteria(SqlGiftCertificateName.NAME, null));
-        criteriaList.add(new PartMatchSearchCertificateCriteria(SqlGiftCertificateName.DESCRIPTION, null));
-        criteriaList.add(new FieldSortCertificateCriteria(SqlGiftCertificateName.NAME, null));
-        criteriaList.add(new FieldSortCertificateCriteria(SqlGiftCertificateName.CREATE_DATE, null));
+        List<Criteria<GiftCertificate>> criteriaList = new ArrayList<Criteria<GiftCertificate>>();
         List<GiftCertificate> expected = new ArrayList<>();
-        Mockito.when(dao.findWithTags(criteriaList)).thenReturn(expected);
-        List<GiftCertificate> actual = service.findCertificatesWithTagsByCriteria(null, null,
-                null, null, null);
+        Mockito.when(dao.findWithTags(0,0, criteriaList)).thenReturn(expected);
+        List<GiftCertificate> actual = service.findCertificatesWithTagsByCriteria(0,0,null,
+                null, null, null, null);
         assertEquals(expected, actual);
     }
-
 
     @Test
     void findByIdTest() {
@@ -128,7 +141,7 @@ class GiftCertificateServiceImplTest {
 
     @Test()
     void updateThrowTest() {
-        assertThrows(InvalidFieldException.class, () -> service.update("",giftCertificate));
+        assertThrows(InvalidFieldException.class, () -> service.update("", giftCertificate));
     }
 
     @Test()

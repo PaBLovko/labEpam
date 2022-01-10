@@ -1,5 +1,6 @@
 package com.epam.esm.impl;
 
+import com.epam.esm.constant.ErrorAttribute;
 import com.epam.esm.exception.InvalidFieldException;
 import com.epam.esm.exception.ResourceDuplicateException;
 import com.epam.esm.exception.ResourceNotFoundException;
@@ -9,6 +10,7 @@ import com.epam.esm.api.TagService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -19,7 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TagServiceImplTest {
-    private TagService service;
+    @InjectMocks
+    private TagServiceImpl service;
     @Mock
     private TagDao<Tag> dao;
 
@@ -27,16 +30,16 @@ class TagServiceImplTest {
     @BeforeAll
     void init() {
         MockitoAnnotations.initMocks(this);
-        service = new TagServiceImpl(dao);
     }
 
     @Test
     void insertTest() {
         Tag tag = new Tag("#new");
-        Mockito.when(dao.insert(tag)).thenReturn(true);
+        Mockito.when(dao.insert(tag)).thenReturn(tag.getId());
         Mockito.when(dao.findByName(tag.getName())).thenReturn(Optional.empty());
-        boolean actual = service.insert(tag);
-        assertTrue(actual);
+        long actual = service.insert(tag);
+        long expected = tag.getId();
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -79,7 +82,8 @@ class TagServiceImplTest {
 
     @Test()
     void findByIdResourceNotFoundThrowTest() {
-        Mockito.when(dao.findById(0)).thenThrow(new ResourceNotFoundException());
+        Mockito.when(dao.findById(0)).thenThrow(new ResourceNotFoundException(ErrorAttribute.TAG_ERROR_CODE,
+                ErrorAttribute.RESOURCE_NOT_FOUND_ERROR, "0"));
         assertThrows(ResourceNotFoundException.class, () -> service.findById(Long.toString(0)));
     }
 
@@ -90,7 +94,8 @@ class TagServiceImplTest {
 
     @Test()
     void findByNameResourceNotFoundThrowTest() {
-        Mockito.when(dao.findByName("name")).thenThrow(new ResourceNotFoundException());
+        Mockito.when(dao.findByName("name")).thenThrow(new ResourceNotFoundException(ErrorAttribute.TAG_ERROR_CODE,
+                ErrorAttribute.RESOURCE_NOT_FOUND_ERROR, "name"));
         assertThrows(ResourceNotFoundException.class, () -> service.findByName("name"));
     }
 }

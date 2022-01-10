@@ -2,13 +2,11 @@ package com.epam.esm.api;
 
 import com.epam.esm.Tag;
 
-import java.util.List;
-
 /**
  * The interface Tag service.
  *
  */
-public interface TagService extends CRUDRepository<Tag> {
+public interface TagService extends CRDRepository<Tag> {
 
     /**
      * Find by name t.
@@ -18,12 +16,20 @@ public interface TagService extends CRUDRepository<Tag> {
      */
     Tag findByName(String name);
 
+//    /**
+//     * Find tags connected to certificate list.
+//     *
+//     * @param certificateId the certificate id
+//     * @return the list
+//     */
+//    List<Tag> findTagsConnectedToCertificate(String certificateId);
+
     /**
-     * Find tags connected to certificate list.
+     * Find most used tag of user with highest cost of all orders t.
      *
-     * @param certificateId the certificate id
-     * @return the list
+     * @param userId the user id
+     * @return the t
      */
-    List<Tag> findTagsConnectedToCertificate(String certificateId);
+    Tag findMostUsedTagOfUserWithHighestCostOfAllOrders(String userId);
 
 }

@@ -17,6 +17,14 @@ public class EntityFieldsName {
      */
     public static final String NAME = "name";
     /**
+     * The constant DESCRIPTION.
+     */
+    public static final String DESCRIPTION = "description";
+    /**
+     * The constant CREATE_DATE.
+     */
+    public static final String CREATE_DATE = "createDate";
+    /**
      * The constant TAGS.
      */
     public static final String TAGS = "tags";

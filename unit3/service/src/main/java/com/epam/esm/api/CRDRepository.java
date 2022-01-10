@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @param <T> the type parameter
  */
-public interface CRUDRepository<T> {
+public interface CRDRepository<T> {
 
     /**
      * Insert boolean.
@@ -15,7 +15,7 @@ public interface CRUDRepository<T> {
      * @param t the t
      * @return the boolean
      */
-    boolean insert(T t);
+    long insert(T t);
 
     /**
      * Delete boolean.
@@ -36,7 +36,9 @@ public interface CRUDRepository<T> {
     /**
      * Find all list.
      *
+     * @param page     the page
+     * @param elements the elements
      * @return the list
      */
-    List<T> findAll();
+    List<T> findAll(int page, int elements);
 }

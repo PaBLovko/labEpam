@@ -13,7 +13,6 @@ import java.util.Set;
 
 @Data
 @Entity
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "gift_certificates")
