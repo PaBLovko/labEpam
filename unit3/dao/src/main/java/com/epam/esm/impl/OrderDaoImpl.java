@@ -84,12 +84,12 @@ public class OrderDaoImpl implements OrderDao<Order> {
     }
 
     @Override
-    public Optional<Order> findByUserIdAndOrderId(long certificateId, long orderId) {
+    public Optional<Order> findByUserIdAndOrderId(long userId, long orderId) {
         EntityManager em = factory.createEntityManager();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Order> criteria = builder.createQuery(Order.class);
         Root<Order> root = criteria.from(Order.class);
-        Predicate userPredicate = builder.equal(root.get(EntityFieldsName.USER).get(EntityFieldsName.ID), certificateId);
+        Predicate userPredicate = builder.equal(root.get(EntityFieldsName.USER).get(EntityFieldsName.ID), userId);
         Predicate orderPredicate = builder.equal(root.get(EntityFieldsName.ID), orderId);
         criteria.where(userPredicate, orderPredicate);
         Optional<Order> result = em.createQuery(criteria).getResultStream().findAny();

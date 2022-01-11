@@ -124,7 +124,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public void disconnectTagById(String tagId) {
         Tag tag = tagService.findById(tagId);
         List<GiftCertificate> certificatesWithSuchTag = findCertificatesWithTagsByCriteria(0, 0,
-                Collections.singletonList(tag.getName()), null, null, null, null);
+                Collections.singletonList(tag.getName()),
+                null, null, null, null);
         if (!CollectionUtils.isEmpty(certificatesWithSuchTag)) {
             for (GiftCertificate certificate : certificatesWithSuchTag) {
                 Set<Tag> updatedTags = certificate.getTags();

@@ -63,4 +63,23 @@ class OrderDaoImplTest {
         boolean actual = dao.deleteByCertificateId(1);
         assertTrue(actual);
     }
+
+    @Test
+    void findByUserIdAndOrderIdTest() {
+        Order expected = new Order();
+        expected.setId(1L);
+        expected.setCost(BigDecimal.valueOf(0.99));
+        expected.setUser(new User(1, "Pablo", "Escobar", "pablo@gmail.com"));
+        expected.setTimestamp(LocalDateTime.of(2012, 10, 10, 11, 10, 11, 111000000));
+
+        Set<Tag> tags = new HashSet<>();
+        tags.add(new Tag(2, "#cool"));
+        tags.add(new Tag(1, "#funny"));
+        expected.setGiftCertificate(new GiftCertificate(1, "Car", "Fast car", BigDecimal.valueOf(99.99), 4,
+                LocalDateTime.of(2011, 11, 19, 11, 10, 11
+                ), null, tags));
+
+        Order actual = dao.findByUserIdAndOrderId(1L,1L).get();
+        assertEquals(expected, actual);
+    }
 }

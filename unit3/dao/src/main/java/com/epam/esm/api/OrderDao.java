@@ -58,9 +58,9 @@ public interface OrderDao<T extends Order> {
     /**
      * Find by user id and order id optional.
      *
-     * @param certificateId the certificate id
+     * @param userId the certificate id
      * @param orderId       the order id
      * @return the optional
      */
-    Optional<T> findByUserIdAndOrderId(long certificateId, long orderId);
+    Optional<T> findByUserIdAndOrderId(long userId, long orderId);
 }

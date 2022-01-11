@@ -1,25 +1,29 @@
 package com.epam.esm.impl;
 
 import com.epam.esm.GiftCertificate;
+import com.epam.esm.Tag;
 import com.epam.esm.api.GiftCertificateDao;
 import com.epam.esm.config.DataSourceConfig;
 import com.epam.esm.constant.EntityFieldsName;
 import com.epam.esm.creator.SqlGiftCertificateQueryCreator;
 import com.epam.esm.creator.criteria.Criteria;
 import com.epam.esm.creator.criteria.search.FullMatchSearchCertificateCriteria;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.Lifecycle;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration(classes = {GiftCertificateDaoImpl.class, SqlGiftCertificateQueryCreator.class,
         DataSourceConfig.class}, loader = AnnotationConfigContextLoader.class)
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class GiftCertificateDaoImplTest {
     private GiftCertificate certificate;
     @Autowired

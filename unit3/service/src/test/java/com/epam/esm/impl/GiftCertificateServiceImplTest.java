@@ -1,7 +1,6 @@
 package com.epam.esm.impl;
 
 import com.epam.esm.Tag;
-import com.epam.esm.api.TagDao;
 import com.epam.esm.api.TagService;
 import com.epam.esm.constant.EntityFieldsName;
 import com.epam.esm.creator.criteria.search.PartMatchSearchCertificateCriteria;
@@ -139,8 +138,24 @@ class GiftCertificateServiceImplTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void disconnectTagByIdTest() {
+        List<GiftCertificate> giftCertificates = new ArrayList<>();
+        giftCertificates.add(giftCertificate);
+        Set<Tag> tags = new HashSet<>();
+        Tag tag = new Tag(1,"#funny");
+        tags.add(tag);
+        giftCertificate.setTags(tags);
+        Mockito.when(tagService.findById("2")).thenReturn(tag);
+        Mockito.when(service.findCertificatesWithTagsByCriteria(0,0, Collections.singletonList(tag.getName()),
+                null, null, null, null)).thenReturn(giftCertificates);
+        service.disconnectTagById("2");
+        boolean expected = giftCertificate.getTags().isEmpty();
+        assertTrue(expected);
+    }
+
     @Test()
-    void updateThrowTest() {
+    void updateInvalidFieldThrowTest() {
         assertThrows(InvalidFieldException.class, () -> service.update("", giftCertificate));
     }
 
@@ -150,7 +165,7 @@ class GiftCertificateServiceImplTest {
     }
 
     @Test()
-    void deleteThrowTest() {
+    void deleteResourceNotFoundThrowTest() {
         Mockito.when(dao.findById(1)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> service.delete("1"));
     }
@@ -164,4 +179,5 @@ class GiftCertificateServiceImplTest {
     void insertThrowTest() {
         assertThrows(InvalidFieldException.class, () -> service.insert(giftCertificate));
     }
+
 }

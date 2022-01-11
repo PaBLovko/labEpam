@@ -1,12 +1,12 @@
 package com.epam.esm.impl;
 
+import com.epam.esm.User;
 import com.epam.esm.constant.ErrorAttribute;
 import com.epam.esm.exception.InvalidFieldException;
 import com.epam.esm.exception.ResourceDuplicateException;
 import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.api.TagDao;
 import com.epam.esm.Tag;
-import com.epam.esm.api.TagService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -25,11 +25,14 @@ class TagServiceImplTest {
     private TagServiceImpl service;
     @Mock
     private TagDao<Tag> dao;
+    @Mock
+    private UserServiceImpl userService;
 
 
     @BeforeAll
     void init() {
         MockitoAnnotations.initMocks(this);
+        service = new TagServiceImpl(dao, userService);
     }
 
     @Test
@@ -98,4 +101,25 @@ class TagServiceImplTest {
                 ErrorAttribute.RESOURCE_NOT_FOUND_ERROR, "name"));
         assertThrows(ResourceNotFoundException.class, () -> service.findByName("name"));
     }
+
+    @Test()
+    void findMostUsedTagOfUserWithHighestCostOfAllOrdersTest() {
+        Tag expected = new Tag(1,"#cool");
+        User user = new User(1, "Pablo", "Escobar", "pablo@gmail.com");
+        Mockito.when(dao.findMostUsedTagOfUserWithHighestCostOfAllOrders(1)).thenReturn(Optional.of(expected));
+        Mockito.when(userService.findById("1")).thenReturn(user);
+        Tag actual = service.findMostUsedTagOfUserWithHighestCostOfAllOrders("1");
+        assertEquals(expected, actual);
+    }
+
+    @Test()
+    void findMostUsedTagOfUserWithHighestCostOfAllOrdersThrowTest() {
+        Mockito.when(dao.findMostUsedTagOfUserWithHighestCostOfAllOrders(11)).
+                thenThrow(new RuntimeException());
+        Mockito.when(userService.findById("11")).thenThrow(new ResourceNotFoundException(
+                ErrorAttribute.TAG_ERROR_CODE, ErrorAttribute.RESOURCE_NOT_FOUND_ERROR, "11"));
+        assertThrows(ResourceNotFoundException.class,
+                () -> service.findMostUsedTagOfUserWithHighestCostOfAllOrders("11"));
+    }
+
 }

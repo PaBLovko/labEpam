@@ -115,5 +115,24 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao<GiftCertificat
         em.close();
         return giftCertificates;
     }
-
+//
+//    @Override
+//    public int create(GiftCertificate giftCertificate) {
+//        if (giftCertificate.getTags().stream().anyMatch(tag -> tag.getId() != 0)) {
+//            giftCertificate = em.merge(giftCertificate);
+//        } else {
+//            em.persist(giftCertificate);
+//        }
+//        return (int) giftCertificate.getId();
+//    }
+//
+//    @Override
+//    public boolean update(GiftCertificate giftCertificate) {
+//        EntityManager em = factory.createEntityManager();
+//        em.getTransaction().begin();
+//        em.merge(giftCertificate);
+//        em.getTransaction().commit();
+//        em.close();
+//        return true;
+//    }
 }

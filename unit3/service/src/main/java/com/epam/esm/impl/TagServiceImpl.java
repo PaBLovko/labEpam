@@ -63,15 +63,6 @@ public class TagServiceImpl implements TagService {
         return dao.findAll(page, elements);
     }
 
-//    @Override
-//    public List<Tag> findTagsConnectedToCertificate(String certificateId) {
-//        try {
-//            return dao.findTagsConnectedToCertificate(Long.parseLong(certificateId));
-//        } catch (NumberFormatException e) {
-//            throw new InvalidFieldException("2", "Invalid certificate id (id = " + certificateId + ")");
-//        }
-//    }
-
     @Override
     public Tag findMostUsedTagOfUserWithHighestCostOfAllOrders(String userId) {
         return dao.findMostUsedTagOfUserWithHighestCostOfAllOrders(userService.findById(userId).getId()).
