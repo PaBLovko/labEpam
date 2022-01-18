@@ -12,11 +12,11 @@ subprojects {
     version '1.0'
 
     dependencies {
-        compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
-        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
-        testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.5.1'
-        implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.5.1'
-        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: '2.5.1'
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+        testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.6.2'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.6.2'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: '2.6.2'
         implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
 
     }

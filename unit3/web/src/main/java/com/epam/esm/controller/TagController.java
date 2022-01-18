@@ -1,6 +1,5 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.GiftCertificate;
 import com.epam.esm.Tag;
 import com.epam.esm.api.GiftCertificateService;
 import com.epam.esm.api.TagService;
@@ -9,8 +8,6 @@ import com.epam.esm.hateoas.Hateoas;
 import com.epam.esm.response.OperationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

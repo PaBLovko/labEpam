@@ -16,14 +16,6 @@ public interface TagService extends CRDRepository<Tag> {
      */
     Tag findByName(String name);
 
-//    /**
-//     * Find tags connected to certificate list.
-//     *
-//     * @param certificateId the certificate id
-//     * @return the list
-//     */
-//    List<Tag> findTagsConnectedToCertificate(String certificateId);
-
     /**
      * Find most used tag of user with highest cost of all orders t.
      *
