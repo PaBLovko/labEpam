@@ -1,5 +1,6 @@
 plugins {
     id 'war'
+    id 'application'
 }
 
 repositories {
@@ -13,4 +14,8 @@ dependencies {
     implementation project(':service')
     implementation project(':dao')
     implementation project(':model')
+}
+
+application {
+    mainClassName = 'com.epam.esm.SpringBootApp'
 }

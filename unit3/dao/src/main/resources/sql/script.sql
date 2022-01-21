@@ -43,7 +43,7 @@ create table users
 create table orders
 (
     order_id                bigint not null auto_increment,
-    cost                    decimal(10, 2) not null,
+    price                   decimal(10, 2) not null,
     timestamp               datetime not null,
     gift_certificate_id_fk  bigint not null references gift_certificates (gift_certificate_id),
     user_id_fk              bigint not null references users (user_id),

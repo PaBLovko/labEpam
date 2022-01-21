@@ -1,5 +1,6 @@
 package com.epam.esm.impl;
 
+import com.epam.esm.Order;
 import com.epam.esm.api.TagDao;
 import com.epam.esm.Tag;
 import com.epam.esm.constant.EntityFieldsName;
@@ -59,8 +60,7 @@ public class TagDaoImpl implements TagDao<Tag> {
         CriteriaQuery<Tag> criteria = builder.createQuery(Tag.class);
         Root<Order> root = criteria.from(Order.class);
 
-        Join<Tag, Order> tagOrderJoin = root.join(EntityFieldsName.GIFT_CERTIFICATE)
-                .join(EntityFieldsName.TAGS);
+        Join<Tag, Order> tagOrderJoin = root.join(EntityFieldsName.GIFT_CERTIFICATE).join(EntityFieldsName.TAGS);
 
         criteria.select(root.get(EntityFieldsName.GIFT_CERTIFICATE).get(EntityFieldsName.TAGS))
                 .where(builder.equal(root.get(EntityFieldsName.USER).get(EntityFieldsName.ID), userId))

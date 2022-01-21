@@ -83,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
 
     private Order createOrder(GiftCertificate certificate) {
         Order order = new Order();
-        order.setCost(certificate.getPrice());
+        order.setPrice(certificate.getPrice());
         order.setTimestamp(LocalDateTime.now());
         order.setGiftCertificate(certificate);
         return order;

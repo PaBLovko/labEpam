@@ -36,7 +36,7 @@ class OrderDaoImplTest {
     @Test
     void insertTest() {
         Order order = new Order();
-        order.setCost(BigDecimal.TEN);
+        order.setPrice(BigDecimal.TEN);
         order.setUser(new User(1, "Alice", "Green", "alice@gmail.com"));
         order.setTimestamp(LocalDateTime.now());
 
@@ -67,8 +67,7 @@ class OrderDaoImplTest {
     @Test
     void findByUserIdAndOrderIdTest() {
         Order expected = new Order();
-        expected.setId(1L);
-        expected.setCost(BigDecimal.valueOf(0.99));
+        expected.setPrice(BigDecimal.valueOf(0.99));
         expected.setUser(new User(1, "Pablo", "Escobar", "pablo@gmail.com"));
         expected.setTimestamp(LocalDateTime.of(2012, 10, 10, 11, 10, 11, 111000000));
 

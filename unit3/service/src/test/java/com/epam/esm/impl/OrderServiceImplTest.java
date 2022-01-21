@@ -55,7 +55,7 @@ class OrderServiceImplTest {
     @Test
     void createOrderTest() {
         Order order = new Order();
-        order.setCost(BigDecimal.valueOf(0.99));
+        order.setPrice(BigDecimal.valueOf(0.99));
         order.setUser(new User(1, "Pablo", "Escobar", "pablo@gmail.com"));
         order.setTimestamp(LocalDateTime.of(2012, 10, 10, 11, 10, 11,
                 111000000));
@@ -79,8 +79,7 @@ class OrderServiceImplTest {
     @Test
     void findByIdTest() {
         Order expected = new Order();
-        expected.setId(1);
-        expected.setCost(BigDecimal.TEN);
+        expected.setPrice(BigDecimal.TEN);
         expected.setUser(new User(1, "Pablo", "Escobar", "pablo@gmail.com"));
         expected.setTimestamp(LocalDateTime.now());
         Set<Tag> tags = new HashSet<>();
@@ -97,7 +96,7 @@ class OrderServiceImplTest {
     @Test
     void deleteByCertificateIdTest() {
         Order order = new Order();
-        order.setCost(BigDecimal.TEN);
+        order.setPrice(BigDecimal.TEN);
         order.setUser(new User(1, "Pablo", "Escobar", "pablo@gmail.com"));
         order.setTimestamp(LocalDateTime.now());
         Set<Tag> tags = new HashSet<>();
@@ -112,19 +111,17 @@ class OrderServiceImplTest {
 
     @Test
     void findByUserIdAndOrderIdTest() {
-        Order expected = new Order();
-        expected.setId(1L);
-        expected.setCost(BigDecimal.valueOf(0.99));
-        expected.setUser(new User(1, "Pablo", "Escobar", "pablo@gmail.com"));
-        expected.setTimestamp(LocalDateTime.of(2012, 10, 10, 11, 10, 11,
-                111000000));
+        User user = new User(1, "Pablo", "Escobar", "pablo@gmail.com");
         Set<Tag> tags = new HashSet<>();
         tags.add(new Tag(2, "#cool"));
         tags.add(new Tag(1, "#funny"));
-        expected.setGiftCertificate(new GiftCertificate(1, "Car", "Fast car",
+        GiftCertificate giftCertificate = new GiftCertificate(1, "Car", "Fast car",
                 BigDecimal.valueOf(99.99), 4,
                 LocalDateTime.of(2011, 11, 19, 11, 10, 11),
-                null, tags));
+                null, tags);
+        LocalDateTime localDateTime = LocalDateTime.of(2012, 10, 10, 11, 10, 11,
+                111000000);
+        Order expected = new Order(1L, BigDecimal.valueOf(0.99), localDateTime, giftCertificate, user);
 
         when(dao.findByUserIdAndOrderId(1, 1)).thenReturn(Optional.of(expected));
 

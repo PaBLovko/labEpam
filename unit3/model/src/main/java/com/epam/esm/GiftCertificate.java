@@ -1,9 +1,6 @@
 package com.epam.esm;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
@@ -12,8 +9,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = {"id"}, callSuper = false)
+@ToString(exclude = {"id"})
 @Entity
+@EntityListeners(AuditListener.class)
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "gift_certificates")
@@ -21,6 +22,7 @@ public class GiftCertificate extends RepresentationModel<GiftCertificate> {
     @Id
     @Column(name = "gift_certificate_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(value = AccessLevel.NONE)
     private long id;
     @Column(name = "certificate_name")
     private String name;
