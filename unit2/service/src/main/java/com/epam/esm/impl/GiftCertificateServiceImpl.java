@@ -1,18 +1,18 @@
 package com.epam.esm.impl;
 
-import com.epam.esm.api.TagService;
-import com.epam.esm.exception.InvalidFieldException;
-import com.epam.esm.exception.ResourceNotFoundException;
+import com.epam.esm.GiftCertificate;
+import com.epam.esm.Tag;
 import com.epam.esm.api.GiftCertificateDao;
+import com.epam.esm.api.GiftCertificateService;
+import com.epam.esm.api.TagService;
 import com.epam.esm.creator.criteria.Criteria;
 import com.epam.esm.creator.criteria.search.FullMatchSearchCriteria;
 import com.epam.esm.creator.criteria.search.PartMatchSearchCriteria;
 import com.epam.esm.creator.criteria.sort.FieldSortCriteria;
+import com.epam.esm.exception.InvalidFieldException;
+import com.epam.esm.exception.ResourceNotFoundException;
 import com.epam.esm.sql.SqlGiftCertificateName;
 import com.epam.esm.sql.SqlTagName;
-import com.epam.esm.GiftCertificate;
-import com.epam.esm.Tag;
-import com.epam.esm.api.GiftCertificateService;
 import com.epam.esm.validator.GiftCertificateValidator;
 import com.epam.esm.validator.TagValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 }
                 return dao.insert(giftCertificate);
         } else {
-            throw new InvalidFieldException("Invalid gift certificate: " + giftCertificate);
+            throw new InvalidFieldException("1", "Invalid gift certificate: " + giftCertificate);
         }
     }
 
@@ -67,10 +67,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 }
                 return dao.delete(giftCertificate.getId());
             } else {
-                throw new ResourceNotFoundException("Requested resource not found (id = " + id + ")");
+                throw new ResourceNotFoundException("1", "Requested resource not found (id = " + id + ")");
             }
         } catch (NumberFormatException e) {
-            throw new InvalidFieldException("Invalid tag id (id = " + id + ")", e);
+            throw new InvalidFieldException("1", "Invalid tag id (id = " + id + ")");
         }
     }
 
@@ -79,7 +79,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public boolean update(String id, GiftCertificate newGiftCertificate) {
         try {
             GiftCertificate oldGiftCertificate = dao.findById(Long.parseLong(id)).orElseThrow(() ->
-                    new ResourceNotFoundException("Requested resource not found (id = " + id + ")"));
+                    new ResourceNotFoundException("1", "Requested resource not found (id = " + id + ")"));
             if (updateGiftCertificateFields(oldGiftCertificate, newGiftCertificate) &&
                     saveNewTags(oldGiftCertificate, tagService.findAll())) {
                 oldGiftCertificate.setLastUpdateDate(LocalDateTime.now());
@@ -90,20 +90,20 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 dao.connectTags(notConnectedTags, oldGiftCertificate.getId());
                 return dao.update(oldGiftCertificate);
             } else {
-                throw new InvalidFieldException("Invalid gift certificate: " + newGiftCertificate);
+                throw new InvalidFieldException("1", "Invalid gift certificate: " + newGiftCertificate);
             }
         } catch (NumberFormatException e) {
-            throw new InvalidFieldException("Invalid tag id (id = " + id + ")", e);
+            throw new InvalidFieldException("1", "Invalid tag id (id = " + id + ")");
         }
     }
 
     @Override
     public GiftCertificate findById(String id) {
         try {
-            return dao.findById(Long.parseLong(id)).orElseThrow(() -> new ResourceNotFoundException("Requested" +
+            return dao.findById(Long.parseLong(id)).orElseThrow(() -> new ResourceNotFoundException("1", "Requested" +
                     " resource not found (id = " + id + ")"));
         } catch (NumberFormatException e) {
-            throw new InvalidFieldException("Invalid tag id (id = " + id + ")", e);
+            throw new InvalidFieldException("1", "Invalid tag id (id = " + id + ")");
         }
     }
 

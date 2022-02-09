@@ -14,7 +14,8 @@ public class ResourceNotFoundExceptionsHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public final ResponseEntity<ControllerException> handleRuntimeExceptions(ResourceNotFoundException e) {
-        ControllerException controllerException = new ControllerException(e.getMessage(), e.getCause());
+        ControllerException controllerException = new ControllerException(e.getLocalizedMessage(), e.getErrorCode());
+        controllerException.setErrorCode(status.value() + e.getErrorCode());
         return new ResponseEntity<>(controllerException, status);
     }
 }

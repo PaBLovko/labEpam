@@ -1,20 +1,11 @@
 package com.epam.esm.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class DaoException extends RuntimeException{
-
-    public DaoException() {
-        super();
-    }
-
-    public DaoException(String message) {
-        super(message);
-    }
-
-    public DaoException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public DaoException(Throwable cause) {
-        super(cause);
-    }
+    private String errorCode;
+    private String message;
 }

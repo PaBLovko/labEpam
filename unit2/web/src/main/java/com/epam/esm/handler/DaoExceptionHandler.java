@@ -13,7 +13,8 @@ public class DaoExceptionHandler {
 
     @ExceptionHandler(DaoException.class)
     public final ResponseEntity<ControllerException> handleRuntimeExceptions(DaoException e) {
-        ControllerException controllerException = new ControllerException(e.getMessage(), e.getCause());
+        ControllerException controllerException = new ControllerException(e.getLocalizedMessage(), e.getErrorCode());
+        controllerException.setErrorCode(status.value() + e.getErrorCode());
         return new ResponseEntity<>(controllerException, status);
     }
 }

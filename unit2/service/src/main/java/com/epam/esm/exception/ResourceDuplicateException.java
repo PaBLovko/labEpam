@@ -1,21 +1,11 @@
 package com.epam.esm.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
+@AllArgsConstructor
 public class ResourceDuplicateException extends RuntimeException {
-
-    public ResourceDuplicateException() {
-        super();
-    }
-
-    public ResourceDuplicateException(String message) {
-        super(message);
-    }
-
-    public ResourceDuplicateException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public ResourceDuplicateException(Throwable cause) {
-        super(cause);
-    }
+    private String errorCode;
+    private String message;
 }

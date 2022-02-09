@@ -1,0 +1,21 @@
+plugins {
+    id 'war'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.6.2'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.3'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.3'
+    implementation project(':service')
+    implementation project(':dao')
+    implementation project(':model')
+}
+
+application {
+    mainClassName = 'com.epam.esm.SpringBootApp'
+}
