@@ -38,7 +38,7 @@ public class GiftCertificate extends RepresentationModel<GiftCertificate> {
     private LocalDateTime createDate;
     @Column(name = "last_update_date")
     private LocalDateTime lastUpdateDate;
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "gift_certificates_tags",
             joinColumns = {@JoinColumn(name = "gift_certificate_id_fk")},

@@ -66,7 +66,7 @@ public class UserController {
                                                @PathVariable String certificateId) {
         EntityOperationResponse response = new EntityOperationResponse(EntityOperationResponse.Operation.CREATION,
                 ResponseMessageName.ORDER_CREATE_OPERATION, orderService.createOrder(userId, certificateId,
-                jwtProvider.getUserName(request.getHeader(HeaderName.AUTHENTICATION_TOKEN))),
+                jwtProvider.getUserName(jwtProvider.resolveToken(request))),
                 MessageLocale.defineLocale(request.getHeader(HeaderName.LOCALE)));
         responseHateoas.createHateoas(response);
         return response;

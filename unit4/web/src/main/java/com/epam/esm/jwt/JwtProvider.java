@@ -23,8 +23,10 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import static org.springframework.util.StringUtils.hasText;
+
 @Component
-@PropertySource("security/jwt.properties")
+@PropertySource("classpath:security/jwt.properties")
 public class JwtProvider {
     static {
         tokens = new CopyOnWriteArraySet<>();
@@ -76,7 +78,11 @@ public class JwtProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader(HeaderName.AUTHENTICATION_TOKEN);
+        String bearer = request.getHeader(HeaderName.AUTHENTICATION_TOKEN);
+        if (hasText(bearer) && bearer.startsWith("Bearer ")) {
+            return bearer.substring(7);
+        }
+        return null;
     }
 
     public String getUserNameFromSecurityContext() {

@@ -1,13 +1,15 @@
 package com.epam.esm.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
 @Setter
-public class ExceptionResponse {
-    private String message;
+public class ExceptionResponse extends Response{
     private String errorCode;
+
+    public ExceptionResponse(String message, String errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

@@ -48,6 +48,7 @@ public class TagDaoImpl implements TagDao<Tag> {
         return manager.createQuery(criteria).getResultStream().findFirst();
     }
 
+    @Transactional
     @Override
     public Optional<Tag> findMostUsedTagOfUserWithHighestCostOfAllOrders(long userId) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();

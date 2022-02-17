@@ -24,6 +24,7 @@ public class EntityOperationResponse extends Response {
         LOGOUT(ResponseMessageName.LOGOUT_OPERATION);
 
         private final String nameKey;
+
         public String getLocalizedOperationName(Locale locale) {
             return ResourceBundle.getBundle(PropertyFileName.OPERATION_RESPONSE_MESSAGES, locale).getString(nameKey);
         }

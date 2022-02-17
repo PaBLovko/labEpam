@@ -10,8 +10,14 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:database.properties")
@@ -51,5 +57,42 @@ public class DatabaseConfiguration {
                 .addScript(CREATE_DATABASE_SCRIPT)
                 .addScript(FILL_DATABASE_WITH_DATA_SCRIPT)
                 .build();
+    }
+
+    @Profile(ProfileName.PRODUCTION)
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setDataSource(dataSource());
+        factoryBean.setJpaProperties(jpaProperties());
+        factoryBean.setJpaVendorAdapter(vendorAdapter());
+        factoryBean.setPackagesToScan("com.epam.esm");
+        return factoryBean;
+    }
+
+    @Profile(ProfileName.PRODUCTION)
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(this.entityManagerFactory().getObject());
+        return transactionManager;
+
+    }
+
+    @Profile(ProfileName.PRODUCTION)
+    private Properties jpaProperties() {
+        Properties propJpa = new Properties();
+        propJpa.put("hibernate.hbm2ddl.auto", "update");
+        propJpa.put("hibernate.show_sql", true);
+        propJpa.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        return propJpa;
+    }
+
+    @Profile(ProfileName.PRODUCTION)
+    private AbstractJpaVendorAdapter vendorAdapter() {
+        AbstractJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setShowSql(true);
+        vendorAdapter.setGenerateDdl(true);
+        return vendorAdapter;
     }
 }

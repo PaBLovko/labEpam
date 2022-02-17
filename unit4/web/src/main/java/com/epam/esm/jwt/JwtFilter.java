@@ -34,7 +34,8 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         String token = provider.resolveToken((HttpServletRequest) request);
         try {
             if (token != null && provider.validateToken(token)) {
@@ -55,7 +56,8 @@ public class JwtFilter extends GenericFilterBean {
                     httpRequest.getHeader(HeaderName.LOCALE))), e.getErrorCode());
             exceptionResponse.setErrorCode(HttpStatus.UNAUTHORIZED.value() + e.getErrorCode());
 
-            ResponseEntity<ExceptionResponse> responseEntity = new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
+            ResponseEntity<ExceptionResponse> responseEntity =
+                    new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
             httpResponse.getOutputStream().println(jsonConverter.convert(responseEntity));
         }
     }
